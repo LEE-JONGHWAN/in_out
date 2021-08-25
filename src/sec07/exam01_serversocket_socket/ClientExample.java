@@ -10,7 +10,7 @@ public class ClientExample {
 		try {
 			socket = new Socket();
 			System.out.println( "[연결 요청]");
-			socket.connect(new InetSocketAddress("localhost", 5001));
+			socket.connect(new InetSocketAddress("localhost", 5001),100);
 			System.out.println( "[연결 성공]");
 		} catch(Exception e) {}
 		

@@ -18,12 +18,12 @@ public class FileExample {
 		if(file3.exists() == false) {  file3.createNewFile();  }
 
 		File temp = new File("C:/Temp");
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd   a   HH:mm");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd a HH:mm");
 		File[] contents = temp.listFiles();
 		System.out.println("날짜              시간         형태       크기    이름");
 		System.out.println("-------------------------------------------------------------------");
 		for(File file : contents) {
-			System.out.print(sdf.format(new Date(file.lastModified())));
+			System.out.print(sdf.format(new Date(file..lastModified())));
 			if(file.isDirectory()) {
 				System.out.print("\t<DIR>\t\t\t" + file.getName());
 			} else {

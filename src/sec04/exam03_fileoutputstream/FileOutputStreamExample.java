@@ -2,14 +2,20 @@
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.logging.Logger;
+
+import sec00.Consts;
 
 public class FileOutputStreamExample {
 	public static void main(String[] args) throws Exception {
-		String originalFileName = "C:/JavaProgramming/source/chap18/src/sec04/exam03_fileoutputstream/house.jpg";
+		
+		String originalFileName = Consts.CH18 +
+				"/sec04/exam03_fileoutputstream/house.jpg";
 		String targetFileName = "C:/Temp/house.jpg";
 		
-		FileInputStream fis = new FileInputStream(originalFileName);
-		FileOutputStream fos = new FileOutputStream(targetFileName);
+		try(var fis = new FileInputStream(originalFileName);
+			var fos = new FileOutputStream(targetFileName)){
 		
 		int readByteNo;
 		byte[] readBytes = new byte[100];
@@ -17,11 +23,12 @@ public class FileOutputStreamExample {
 			fos.write(readBytes, 0, readByteNo);
 		}
 		
-		fos.flush();
-		fos.close();
-		fis.close();
-		
+//		fos.flush();
 		System.out.println("복사가 잘 되었습니다.");
+	} catch(IOException e) {
+		Logger.getGlobal().warning("주택 사진 파일 없는 오류 발생...");
+		e.printStackTrace();
 	}
+  }
 }
 

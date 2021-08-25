@@ -7,9 +7,8 @@ import java.net.Socket;
 
 public class ServerExample {
 	public static void main(String[] args) {
-		ServerSocket serverSocket = null;
-		try {
-			serverSocket = new ServerSocket();		
+		
+		try (ServerSocket serverSocket = new ServerSocket();) {		
 			serverSocket.bind(new InetSocketAddress("localhost", 5001));
 			while(true) {
 				System.out.println( "[연결 기다림]");
@@ -18,11 +17,5 @@ public class ServerExample {
 				System.out.println("[연결 수락함] " + isa.getHostName());
 			}
 		} catch(Exception e) {}
-		
-		if(!serverSocket.isClosed()) {
-			try {
-				serverSocket.close();
-			} catch (IOException e1) {}
-		}
 	}
 }

@@ -7,15 +7,17 @@ import java.io.ObjectOutputStream;
 
 public class ObjectInputOutputStreamExample {
 	public static void main(String[] args) throws Exception {
-		FileOutputStream fos = new FileOutputStream("C:/Temp/Object.dat");
-		ObjectOutputStream oos = new ObjectOutputStream(fos);		
 		
-		oos.writeObject(new Integer(10));
-		oos.writeObject(new Double(3.14));
+		FileOutputStream fos = new FileOutputStream("C:/Temp/Object.dat");
+		try(ObjectOutputStream oos = new ObjectOutputStream(fos);){		
+		
+		oos.writeObject(Integer.valueOf(10));
+		oos.writeObject(Double.valueOf(3.14));
 		oos.writeObject(new int[] { 1, 2, 3 });
 		oos.writeObject(new String("홍길동"));
 		
-		oos.flush();	oos.close(); fos.close();
+		oos.flush();
+		}
 		
 		FileInputStream fis = new FileInputStream("C:/Temp/Object.dat");
 		ObjectInputStream ois = new ObjectInputStream(fis);
