@@ -19,12 +19,14 @@ public class NonSerializableParentExample {
 					child.field2 = "홍삼fdf";
 					oos.writeObject(child);
 					oos.flush();	
-		}
+
 					Child v = (Child) ois.readObject();
-					
+
 					System.out.println("field1: " + v.field1);
 					System.out.println("field2: " + v.field2);
-					ois.close(); fis.close();
+					fis.close();
+		}
+					
 		}
 	}
 }

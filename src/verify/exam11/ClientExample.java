@@ -1,19 +1,26 @@
-﻿package verify.exam11;
+package verify.exam11;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintStream;
 import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.Arrays;
+
+import sec00.Consts;
 
 
 public class ClientExample {
-	public static void main(String[] args) throws Exception {		
-		Socket socket = new Socket("localhost", 5001);
-		OutputStream os = socket.getOutputStream();	
+	public static void main(String[] args) throws Exception {	
+		try(Socket socket = new Socket("localhost", 5001);) {
+		OutputStream os = socket.getOutputStream();
+		PrintStream out = new PrintStream(
+				System.out, true, Charset.forName("UTF-8"));
 		
-		String filePath = "C:/JavaProgramming/source/chap18/src/sec04/exam03_fileoutputstream/house.jpg";
+		String filePath = Consts.CH18 
+				+ "/sec04/exam03_fileoutputstream/house.jpg";
 		File file = new File(filePath);
 		
 		String fileName = file.getName();
@@ -21,19 +28,15 @@ public class ClientExample {
 		fileNameBytes = Arrays.copyOf(fileNameBytes, 100);
 		os.write(fileNameBytes);
 		
-		System.out.println("[파일 보내기 시작] " + fileName);
-		FileInputStream fis = new FileInputStream(file);	
-		byte[] bytes = new byte[1000];
-		int readByteCount = -1;
-		while((readByteCount=fis.read(bytes))!=-1) {
-			os.write(bytes, 0, readByteCount);
+		out.println("[파일 보내기 시작] " + fileName);
+		
+		try(var fis = new BufferedInputStream(new FileInputStream(file));) {
+		byte[] fileAllBytes = fis.readAllBytes();
+		
+				os.write(fileAllBytes);
+				os.flush();
+				out.println("[파일 보내기 완료]");
+			}
 		}
-		
-		os.flush();
-		System.out.println("[파일 보내기 완료]");		
-		
-		fis.close();
-		os.close();
-		socket.close();
 	}
 }

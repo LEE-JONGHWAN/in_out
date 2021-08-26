@@ -1,11 +1,11 @@
-﻿package sec08.exam01_udp;
+package sec08.exam01_udp;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 
 public class UdpReceiveExample extends Thread {
 	public static void main(String[] args) throws Exception {
-		DatagramSocket datagramSocket = new DatagramSocket(5001);
+		try(DatagramSocket datagramSocket = new DatagramSocket(5001);){
 		
 		Thread thread = new Thread() {
 			@Override
@@ -16,17 +16,20 @@ public class UdpReceiveExample extends Thread {
 						DatagramPacket packet = new DatagramPacket(new byte[100], 100);
 						datagramSocket.receive(packet);
 						
-						String data = new String(packet.getData(), 0, packet.getLength(), "UTF-8");
-						System.out.println("[받은 내용: "  + packet.getSocketAddress() + "] " + data);
+						String data = new String(packet.getData(), 
+								0, packet.getLength(), "UTF-8");
+						
+						System.out.println("[받은 내용: "  
+								+ packet.getSocketAddress() + "] " + data);
+						System.out.println("[수신 대기 중....]");
 					}
 				} catch (Exception e) {
-					System.out.println("[수신 종료]");
+					System.out.println("[프로그램 종료에 따른 소켓 폐쇄에 의한 수신 종료]");
 				}
 			}			
 		};
 		thread.start();
-		
 		Thread.sleep(10000);
-		datagramSocket.close();
-	}
+	  } 
+   }
 }

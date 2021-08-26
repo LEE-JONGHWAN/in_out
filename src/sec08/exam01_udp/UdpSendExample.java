@@ -1,14 +1,17 @@
-﻿package sec08.exam01_udp;
+package sec08.exam01_udp;
 
+import java.io.PrintStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.nio.charset.Charset;
 
 public class UdpSendExample {
 	public static void main(String[] args) throws Exception {
 		DatagramSocket datagramSocket = new DatagramSocket();
-		
-		System.out.println("[발신 시작]");
+		PrintStream out = new PrintStream(System.out, true, 
+				Charset.forName("UTF-8"));
+		out.println("[발신 시작]");
 		
 		for(int i=1; i<3; i++) {
 			String data = "메시지" + i;
@@ -19,10 +22,10 @@ public class UdpSendExample {
 			);
 			
 			datagramSocket.send(packet);
-			System.out.println("[보낸 바이트 수]: " + byteArr.length + " bytes");
+			out.println("[보낸 바이트 수]: " + byteArr.length + " bytes");
 		}
 		
-		System.out.println("[발신 종료]");
+		out.println("[발신 종료]");
 		
 		datagramSocket.close();
 	}

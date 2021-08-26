@@ -49,12 +49,15 @@ public class ServerExample extends Application {
 				while(true) {
 					try {
 						Socket socket = serverSocket.accept();
-						String message = "[연결 수락: " + socket.getRemoteSocketAddress()  + ": " + Thread.currentThread().getName() + "]";
+//						String message = "[연결 수락: " + 
+//								socket.getRemoteSocketAddress()  
+//						+ ": " + Thread.currentThread().getName() 
+//						+ "]";
 						Platform.runLater(()->displayText(message));
 		
 						Client client = new Client(socket);
 						connections.add(client);
-						Platform.runLater(()->displayText("[연결 개수: " + connections.size() + "]"));
+//						Platform.runLater(()->displayText("[연결 개수: " + connections.size() + "]"));
 					} catch (Exception e) {
 						if(!serverSocket.isClosed()) { stopServer(); }
 						break;
@@ -79,10 +82,10 @@ public class ServerExample extends Application {
 			if(executorService!=null && !executorService.isShutdown()) { 
 				executorService.shutdown(); 
 			}
-			Platform.runLater(()->{
-				displayText("[서버 멈춤]");
-				btnStartStop.setText("start");
-			});
+//			Platform.runLater(()->{
+//				displayText("[서버 멈춤]");
+//				btnStartStop.setText("start");
+//			});
 		} catch (Exception e) { }
 	}	
 	
@@ -103,7 +106,7 @@ public class ServerExample extends Application {
 							byte[] byteArr = new byte[100];
 							InputStream inputStream = socket.getInputStream();
 							
-							//클라이언트가 비저상 종료를 했을 경우 IOException 발생
+							//클라이언트가 비정상 종료를 했을 경우 IOException 발생
 							int readByteCount = inputStream.read(byteArr);
 							
 							//클라이언트가 정상적으로 Socket의 close()를 호출했을 경우
